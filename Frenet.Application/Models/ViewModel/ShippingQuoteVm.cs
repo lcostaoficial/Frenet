@@ -1,4 +1,4 @@
-﻿namespace FrenetApi.Models.ViewModel
+﻿namespace Frenet.Application.Models.ViewModel
 {
     public class ShippingQuoteVm
     {

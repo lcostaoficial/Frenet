@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace FrenetApi.Controllers
+namespace Frenet.Application.Controllers
 {
     public class ShippingController : Controller
     {

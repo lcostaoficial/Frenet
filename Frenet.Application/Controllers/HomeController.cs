@@ -1,8 +1,8 @@
-﻿using FrenetApi.Models;
+﻿using Frenet.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace FrenetApi.Controllers
+namespace Frenet.Application.Controllers
 {
     public class HomeController : Controller
     {

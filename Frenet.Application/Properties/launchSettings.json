@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "FrenetApi": {
+    "Frenet.Application": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
