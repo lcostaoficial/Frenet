@@ -1,0 +1,39 @@
+﻿@using Frenet.Application.Models.ViewModel
+@model IEnumerable<ShippingItemArrayVm>
+
+<table class="table table-hover text-nowrap">
+    <thead>
+        <tr>
+            <th>SKU</th>
+            <th>Categoria</th>
+            <th>Altura</th>
+            <th>Comprimento</th>
+            <th>Quantidade</th>
+            <th>Peso</th>
+            <th>Largura</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model == null || !Model.Any())
+        {
+            <tr class="text-center">
+                <td colspan="7">Nenhum item adicionado</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.SKU</td>
+                    <td>@item.Category</td>
+                    <td>@item.Height</td>
+                    <td>@item.Length</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Weight</td>
+                    <td>@item.Width</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

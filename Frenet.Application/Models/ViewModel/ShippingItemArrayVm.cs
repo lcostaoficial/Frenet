@@ -30,5 +30,6 @@ namespace Frenet.Application.Models.ViewModel
         [Display(Name = "Categoria")]
         [Required(ErrorMessage = "Campo obrigatório")]
         public string? Category { get; set; }
+        public string? ContentJson { get; set; }
     }
 }

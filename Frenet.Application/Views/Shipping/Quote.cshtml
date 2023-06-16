@@ -42,13 +42,21 @@
                         </div>
                     </div>
 
-                    <h4>Itens de envio</h4>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Itens de envio</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-primary float-left" onclick="$('#modal-item-envio').modal('show')">
+                                    <em class="fas fa-plus"></em> Adicionar itens
+                                </button>
+                            </div>
+                        </div>
 
-                    <hr />
+                        <div id="conteudo-itens" class="card-body table-responsive p-0" data-conteudo="[]">
+                            @await Html.PartialAsync("_ListaDeItensDeEnvio")
+                        </div>
 
-                    <button type="button" class="btn btn-primary float-left" onclick="$('#modal-item-envio').modal('show')">
-                        <em class="fas fa-plus"></em> Adicionar itens
-                    </button>
+                    </div>
 
                     <div class="form-group col-12">
                         <button type="submit" class="btn btn-success float-right">
@@ -62,7 +70,70 @@
 </div>
 
 @section Scripts {
+    <script>
+        $(function () {
 
+            "use strict"
+
+            window.Quote = window.Quote || {};
+
+            Quote.AtualizarItens = function () {
+
+                let content = $("#conteudo-itens").data("conteudo");
+
+                $.ajax({
+                    method: "GET",
+                    url: "/Shipping/AtualizarItens",
+                    data: { contentJson: content },
+                    dataType: "html",
+                    success: function success(result) {
+                        $("#conteudo-itens").html(content);
+                    }
+                });
+            };
+
+            Quote.AdicionarItem = function () {
+
+                let formData = new FormData($('#form-item')[0]);
+
+                let content = $(document).find("#conteudo-itens").data("conteudo");
+
+                alert(content);
+
+                formData.append('ContentJson', content);
+
+                $.ajax({
+                    method: "POST",
+                    url: "/Shipping/AdicionarItem",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: "json",
+                    success: function success(result) {
+                        $("#conteudo-itens").data("conteudo", result.contentList);
+                        Quote.AtualizarItens();
+                    }
+                });
+            };
+
+
+            Quote.RemoverItemDeEnvio = function () {
+                let form = $("#form-item").serialize();
+                $.ajax({
+                    method: "GET",
+                    url: "/Shipping/RemoverItem",
+                    data: form,
+                    dataType: "json",
+                    success: function success(result) {
+                        $("#conteudo-itens").data("conteudo", result.contentList);
+                        Quote.AtualizarItens();
+                    }
+                });
+            };
+
+        });
+
+    </script>
 }
 
 @section Modals {
@@ -80,7 +151,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="">Adicionar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick="Quote.AdicionarItem()">Adicionar</button>
                 </div>
             </div>
         </div>
