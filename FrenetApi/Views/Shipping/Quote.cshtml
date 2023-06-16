@@ -1,0 +1,30 @@
+﻿@model FrenetApi.Models.ViewModel.ShippingQuoteVm
+
+<div class="flex-row">
+    <div class="col-12 pt-3">
+        <div class="card card-default">
+            <div class="card-body">
+                <form id="formCriarLegenda" asp-action="Criar" asp-controller="Legenda" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group d-flex">
+                        <div class="form-group col-6">
+                            <label asp-for="SellerCEP" class="control-label"></label>
+                            <input asp-for="SellerCEP" class="form-control" />
+                            <span asp-validation-for="SellerCEP" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="SellerCEP" class="control-label"></label>
+                            <input asp-for="SellerCEP" class="form-control" />
+                            <span asp-validation-for="SellerCEP" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-12">
+                        <button type="submit" class="btn btn-success float-right">
+                            <em class="fas fa-check"></em> Criar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
