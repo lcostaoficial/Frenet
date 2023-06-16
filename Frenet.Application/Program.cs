@@ -1,7 +1,12 @@
+using Frenet.Application.Helpers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+//Dependency injection
+builder.Services.InitializeContainer(builder);
 
 var app = builder.Build();
 

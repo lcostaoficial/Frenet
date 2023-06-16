@@ -1,5 +1,5 @@
-﻿using Frenet.Application.Models.Dto;
-using Frenet.Application.Services;
+﻿using Frenet.Application.Models.ViewModel;
+using Frenet.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -7,12 +7,12 @@ namespace Frenet.Application.Controllers
 {
     public class ShippingController : Controller
     {
-        private readonly ShippingService _shippingService;
+        private readonly IShippingService _shippingService;
 
-        public ShippingController()
+        public ShippingController(IShippingService shippingService)
         {
-            _shippingService = new ShippingService();
-        }
+            _shippingService = shippingService;
+        }       
 
         public async Task<IActionResult> Quote()
         {
@@ -24,38 +24,13 @@ namespace Frenet.Application.Controllers
                 Value = service.ServiceCode
             });
 
-            //var teste = new ShippingQuoteDto();
-
-            //teste.SellerCEP = "04757020";
-            //teste.RecipientCEP = "14270000";
-            //teste.ShipmentInvoiceValue = 320.685;
-            //teste.ShippingServiceCode = null;
-
-            //teste.ShippingItemArray = new List<ShippingItemArrayDto>
-            //{
-            //    new ShippingItemArrayDto
-            //    {
-            //        Height = 2,
-            //        Length = 33,
-            //        Quantity = 1,
-            //        Weight = 1.18,
-            //        Width = 47,
-            //        SKU = "SKU",
-            //        Category = "Running"
-            //    },
-            //    new ShippingItemArrayDto
-            //    {
-            //        Height = 5,
-            //        Length = 15,
-            //        Quantity = 1,
-            //        Weight = 0.15,
-            //        Width = 29
-            //    }
-            //};
-
-            //var response = await _shippingService.Quote(teste);
-
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Quote(ShippingQuoteVm model)
+        {
+            return null;
         }
     }
 }
