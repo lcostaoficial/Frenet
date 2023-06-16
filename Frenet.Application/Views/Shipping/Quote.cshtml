@@ -5,22 +5,54 @@
         <div class="card card-default">
             <div class="card-body">
                 <form id="formCriarLegenda" asp-action="Criar" asp-controller="Legenda" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group d-flex">
-                        <div class="form-group col-6">
-                            <label asp-for="SellerCEP" class="control-label"></label>
-                            <input asp-for="SellerCEP" class="form-control" />
-                            <span asp-validation-for="SellerCEP" class="text-danger"></span>
+                    <h4>Realizar cotação</h4>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="SellerCEP" class="control-label"></label>
+                                <input asp-for="SellerCEP" class="form-control" />
+                                <span asp-validation-for="SellerCEP" class="text-danger"></span>
+                            </div>
                         </div>
-                        <div class="form-group col-6">
-                            <label asp-for="SellerCEP" class="control-label"></label>
-                            <input asp-for="SellerCEP" class="form-control" />
-                            <span asp-validation-for="SellerCEP" class="text-danger"></span>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="RecipientCEP" class="control-label"></label>
+                                <input asp-for="RecipientCEP" class="form-control" />
+                                <span asp-validation-for="RecipientCEP" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="ShipmentInvoiceValue" class="control-label"></label>
+                                <input asp-for="ShipmentInvoiceValue" class="form-control" />
+                                <span asp-validation-for="ShipmentInvoiceValue" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="ShippingServiceCode" class="control-label"></label>
+                                <select asp-for="ShippingServiceCode" class="form-control" asp-items="ViewBag.Services">
+                                    <option selected>Selecionar...</option>
+                                </select>
+                                <span asp-validation-for="ShippingServiceCode" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
+
+                    <h4>Itens de envio</h4>
+
+                    <hr />
+
+                    <button type="button" class="btn btn-primary float-left" onclick="$('#modal-item-envio').modal('show')">
+                        <em class="fas fa-plus"></em> Adicionar itens
+                    </button>
+
                     <div class="form-group col-12">
                         <button type="submit" class="btn btn-success float-right">
-                            <em class="fas fa-check"></em> Criar
+                            <em class="fas fa-check"></em> Cotar
                         </button>
                     </div>
                 </form>
@@ -28,3 +60,29 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+
+}
+
+@section Modals {
+    <div class="modal fade" id="modal-item-envio">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Item de Envio</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @await Html.PartialAsync("_ItensDeEnvioModal")
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}      

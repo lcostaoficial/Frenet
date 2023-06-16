@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Services\ShippingService.cs~RF2c2b3c48.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\css\alt\adminlte.components.css.map" />
     <None Include="wwwroot\css\alt\adminlte.components.min.css.map" />
     <None Include="wwwroot\css\alt\adminlte.core.css.map" />
