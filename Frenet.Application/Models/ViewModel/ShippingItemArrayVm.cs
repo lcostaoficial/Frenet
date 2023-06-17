@@ -24,12 +24,11 @@ namespace Frenet.Application.Models.ViewModel
         [Required(ErrorMessage = "Campo obrigatório")]
         public int? Width { get; set; }
 
-        [Required(ErrorMessage = "Campo obrigatório")]
         public string? SKU { get; set; }
 
         [Display(Name = "Categoria")]
-        [Required(ErrorMessage = "Campo obrigatório")]
         public string? Category { get; set; }
+
         public string? ContentJson { get; set; }
     }
 }

@@ -1,7 +1,10 @@
 ﻿@using Frenet.Application.Models.ViewModel
 @model IEnumerable<ShippingItemArrayVm>
+@{
+    int i = 0;
+}
 
-<table class="table table-hover text-nowrap">
+<table class="table table-bordered table-hover text-nowrap">
     <thead>
         <tr>
             <th>SKU</th>
@@ -11,13 +14,14 @@
             <th>Quantidade</th>
             <th>Peso</th>
             <th>Largura</th>
+            <th class="text-center">#</th>
         </tr>
     </thead>
     <tbody>
         @if (Model == null || !Model.Any())
         {
             <tr class="text-center">
-                <td colspan="7">Nenhum item adicionado</td>
+                <td colspan="8">Nenhum item adicionado</td>
             </tr>
         }
         else
@@ -32,7 +36,14 @@
                     <td>@item.Quantity</td>
                     <td>@item.Weight</td>
                     <td>@item.Width</td>
+                    <td class="text-center">
+                        <button onclick="Quote.RemoverItemDeEnvio('@i')" type="button" class="btn btn-danger btn-sm">
+                            <em class="fas fa-eraser"></em> Cancelar
+                        </button>
+                    </td>
                 </tr>
+
+                i++;
             }
         }
     </tbody>

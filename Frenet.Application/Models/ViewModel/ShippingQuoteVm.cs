@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
-
 namespace Frenet.Application.Models.ViewModel
 {
     public class ShippingQuoteVm
@@ -13,7 +11,7 @@ namespace Frenet.Application.Models.ViewModel
         [Required(ErrorMessage = "Campo obrigatório")]
         public string? RecipientCEP { get; set; }
 
-        [Display(Name = "Valor da Fatura")]
+        [Display(Name = "Valor da Fatura (R$)")]
         [Required(ErrorMessage = "Campo obrigatório")]
         public double? ShipmentInvoiceValue { get; set; }
 
@@ -23,5 +21,7 @@ namespace Frenet.Application.Models.ViewModel
         public List<ShippingItemArrayVm>? ShippingItemArray { get; set; }
 
         public string? RecipientCountry { get; set; }
+
+        public string? ContentJson { get; set; }
     }
 }
