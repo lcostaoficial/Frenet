@@ -16,11 +16,10 @@ namespace Frenet.Application.Models.ViewModel
         public double? ShipmentInvoiceValue { get; set; }
 
         [Display(Name = "Serviço")]
+        [Required(ErrorMessage = "Campo obrigatório")]
         public string? ShippingServiceCode { get; set; }
 
         public List<ShippingItemArrayVm>? ShippingItemArray { get; set; }
-
-        public string? RecipientCountry { get; set; }
 
         public string? ContentJson { get; set; }
     }

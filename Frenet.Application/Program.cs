@@ -1,4 +1,5 @@
 using Frenet.Application.Helpers;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,11 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 //Dependency injection
 builder.Services.InitializeContainer(builder);
+
+//AutoMapper
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddAutoMapper(typeof(MappingProfileHelper));
 
 var app = builder.Build();
 

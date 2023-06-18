@@ -1,0 +1,49 @@
+﻿@using Frenet.Application.Models.Dto
+@model ShippingQuoteResponseDto
+
+<table class="table table-bordered table-hover text-nowrap">
+    <thead>
+        <tr>
+            <th>Transportadora</th>
+            <th>Tempo de entrega</th>
+            <th>Tempo de entrega original</th>
+            <th>Cod. serviço</th>
+            <th>Serviço</th>
+            <th>Preço de envio</th>
+            <th>Preço de envio original</th>
+            <th class="text-center">#</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ShippingSevicesArray == null || !Model.ShippingSevicesArray.Any())
+        {
+            <tr class="text-center">
+                <td colspan="8">Nenhum item de cotação</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model.ShippingSevicesArray)
+            {
+                if (item.Error == true)
+                {
+                       <tr>
+                        <td colspan="8">@item.Msg</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>@item.Carrier</td>
+                        <td>@item.DeliveryTime</td>
+                        <td>@item.OriginalDeliveryTime</td>
+                        <td>@item.ServiceCode</td>
+                        <td>@item.ServiceDescription</td>
+                        <td>@item.ShippingPrice</td>
+                        <td>@item.OriginalShippingPrice</td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>

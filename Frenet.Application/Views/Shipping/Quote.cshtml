@@ -8,6 +8,13 @@
                     <h4>Realizar cotação</h4>
                     <hr />
                     <div class="row">
+
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-primary float-right">
+                                <em class="fas fa-eye"></em> Consultar histórico de cotação
+                            </button>
+                        </div>
+
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label asp-for="SellerCEP" class="control-label"></label> <span title="Campo obrigatório" style="color: red">(Obrigatório)</span>
@@ -33,7 +40,7 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label asp-for="ShippingServiceCode" class="control-label"></label> <span title="Campo opcional" style="color: blue">(Opcional)</span>
+                                <label asp-for="ShippingServiceCode" class="control-label"></label> <span title="Campo obrigatório" style="color: red">(Obrigatório)</span>
                                 <select asp-for="ShippingServiceCode" class="form-control" asp-items="ViewBag.Services">
                                     <option selected>Nenhum</option>
                                 </select>
@@ -60,7 +67,7 @@
 
                     <div class="form-group col-12">
                         <button type="submit" class="btn btn-success float-right">
-                            <em class="fas fa-check"></em> Cotar
+                            Realizar cotação
                         </button>
                     </div>
                 </form>
@@ -80,7 +87,38 @@
 
             Quote.Itens = "[]";
 
+            Quote.Load = function () {
+                Swal.fire({
+                    html: '<h3><div class="spinner-border"></div></h3> Aguarde...',
+                    showConfirmButton: false,
+                    allowOutsideClick: false
+                });
+            };
+
+            Quote.LoadStop = function () {
+                Swal.close();
+            };
+
+            Quote.LoadResult = function (modelResult) {
+                
+                $.ajax({
+                    method: "GET",
+                    url: "/Shipping/QuoteResult",
+                    data: { contentJson: JSON.stringify(modelResult) },
+                    dataType: "html",
+                    success: function success(result) {
+                        $("#modal-resultado-cotacao-conteudo").html(result);
+                        $("#modal-resultado-cotacao").modal("show");
+                    },
+                    error: function (xhr) {
+                        Swal.fire("Falha", "Request Status: " + xhr.status + " Status Text: " + xhr.statusText + " " + xhr.responseText, "error");
+                    }
+                });
+            };
+
             Quote.Result = function () {
+
+                Quote.Load();
 
                 let formData = new FormData($("#form-quote")[0]);
 
@@ -94,12 +132,19 @@
                     contentType: false,
                     dataType: "json",
                     success: function success(result) {
+                        Quote.LoadStop();
+
                         if (result.error) {
                             Swal.fire("Falha", result.error, "error");
                         }
                         else {
-                            //
+                            Quote.LoadResult(result.response);
                         }
+                    },
+                    error: function (xhr) {
+                        Quote.LoadStop();
+                        Swal.fire("Falha", "Request Status: " + xhr.status + " Status Text: " + xhr.statusText + " " + xhr.responseText, "error");
+
                     }
                 });
 
@@ -120,6 +165,10 @@
                             $("#conteudo-itens").html(result);
                             $("#modal-item-envio").modal("hide");
                         }
+                    },
+                    error: function (xhr) {
+                        Swal.fire("Falha", "Request Status: " + xhr.status + " Status Text: " + xhr.statusText + " " + xhr.responseText, "error");
+
                     }
                 });
             };
@@ -145,6 +194,10 @@
                             Quote.Itens = result.contentList;
                             Quote.AtualizarItens();
                         }
+                    },
+                    error: function (xhr) {
+                        Swal.fire("Falha", "Request Status: " + xhr.status + " Status Text: " + xhr.statusText + " " + xhr.responseText, "error");
+
                     }
                 });
             };
@@ -164,12 +217,15 @@
                             Quote.Itens = result.contentList;
                             Quote.AtualizarItens();
                         }
+                    },
+                    error: function (xhr) {
+                        Swal.fire("Falha", "Request Status: " + xhr.status + " Status Text: " + xhr.statusText + " " + xhr.responseText, "error");
                     }
                 });
             };
 
             Quote.Eventos = function () {
-                $("#modal-item-envio").on("hidden.bs.modal", function () {
+                $(".modal").on("hidden.bs.modal", function () {
                     $(this).find("form").trigger("reset");
                 });
 
@@ -197,11 +253,30 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    @await Html.PartialAsync("_ItensDeEnvioModal")
+                    @await Html.PartialAsync("_ItemDeEnvio")
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-success" onclick="Quote.AdicionarItem()">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-resultado-cotacao">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Resultado da cotação</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modal-resultado-cotacao-conteudo" class="modal-body">
+                    
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>

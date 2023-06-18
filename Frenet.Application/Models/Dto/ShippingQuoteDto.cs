@@ -7,6 +7,6 @@
         public double? ShipmentInvoiceValue { get; set; }
         public string? ShippingServiceCode { get; set; }
         public List<ShippingItemArrayDto>? ShippingItemArray { get; set; }
-        public string? RecipientCountry { get; set; }
+        public string? RecipientCountry => "BR";
     }
 }
