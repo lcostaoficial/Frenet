@@ -33,7 +33,7 @@ namespace Frenet.Application.Repositories
 
         public async Task<List<QuoteHistory>> GetLast10QuoteHistories(string sellerCEP)
         {
-            return await _dbContext.Quotes.FromSqlInterpolated($@"EXEC dbo.GetLast10QuoteHistories{sellerCEP}").ToListAsync();
+            return await _dbContext.Quotes.FromSqlInterpolated($@"EXEC dbo.GetLast10QuoteHistories {sellerCEP}").ToListAsync();
         }
     }
 }

@@ -1,0 +1,39 @@
+﻿@using Frenet.Application.Models.Entities
+@model IEnumerable<QuoteHistory>
+
+<table class="table table-bordered table-hover text-nowrap">
+    <thead>
+        <tr>
+            <th>Transportadora</th>
+            <th>Tempo de entrega</th>
+            <th>Tempo de entrega original</th>
+            <th>Cod. serviço</th>
+            <th>Serviço</th>
+            <th>Preço de envio</th>
+            <th>Preço de envio original</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model == null || !Model.Any())
+        {
+            <tr class="text-center">
+                <td colspan="7">Nenhum item adicionado</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Carrier</td>
+                    <td>@item.DeliveryTime</td>
+                    <td>@item.OriginalDeliveryTime</td>
+                    <td>@item.ServiceCode</td>
+                    <td>@item.ServiceDescription</td>
+                    <td>@item.ShippingPrice</td>
+                    <td>@item.OriginalShippingPrice</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -67,6 +67,33 @@ namespace Frenet.Application.Controllers
             return View();
         }
 
+        public async Task<IActionResult> QuoteHistory(string sellerCEP)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(sellerCEP))
+                    return Json(new { Error = "CEP de origem é necessário para consultar histórico" });
+
+                var result = await _quoteHistoryRepository.GetLast10QuoteHistories(sellerCEP);
+
+                if (result == null && !result!.Any())
+                    return Json(new { Error = "Sem histórico de movimentação para o CEP de origem informado" });
+
+                return Json(new { ContentList = JsonSerializer.Serialize(result) });
+            }
+            catch (Exception e)
+            {
+                return Json(new { Error = e.Message });
+            }
+        }
+
+        public IActionResult HistoryModal(string contentJson)
+        {
+            var response = JsonSerializer.Deserialize<List<QuoteHistory>>(contentJson);
+
+            return PartialView("_HistoricoDeCotacao", response);
+        }
+
         public IActionResult QuoteResult(string contentJson)
         {
             var jsonOptions = new JsonSerializerOptions

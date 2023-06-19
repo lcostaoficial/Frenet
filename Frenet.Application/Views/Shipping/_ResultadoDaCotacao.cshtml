@@ -11,14 +11,13 @@
             <th>Serviço</th>
             <th>Preço de envio</th>
             <th>Preço de envio original</th>
-            <th class="text-center">#</th>
         </tr>
     </thead>
     <tbody>
         @if (Model.ShippingSevicesArray == null || !Model.ShippingSevicesArray.Any())
         {
             <tr class="text-center">
-                <td colspan="8">Nenhum item de cotação</td>
+                <td colspan="7">Nenhum item de cotação</td>
             </tr>
         }
         else

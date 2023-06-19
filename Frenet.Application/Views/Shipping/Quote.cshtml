@@ -10,7 +10,7 @@
                     <div class="row">
 
                         <div class="col-sm-12">
-                            <button type="button" class="btn btn-primary float-right">
+                            <button type="button" class="btn btn-primary float-right" onclick="Quote.History()">
                                 <em class="fas fa-eye"></em> Consultar histórico de cotação
                             </button>
                         </div>
@@ -97,6 +97,53 @@
 
             Quote.LoadStop = function () {
                 Swal.close();
+            };
+
+            Quote.History = function () {
+
+                Quote.Load();
+
+                let sellerCEP = $("#SellerCEP").val();
+
+                $.ajax({
+                    method: "GET",
+                    url: "/Shipping/QuoteHistory",
+                    data: { sellerCEP: sellerCEP },
+                    dataType: "json",
+                    success: function success(result) {
+                        Quote.LoadStop();
+
+                        if (result.error) {
+                            Swal.fire("Falha", result.error, "error");
+                        }
+                        else {
+
+                            Quote.HistoryModal(result.contentList);
+                        }
+                    },
+                    error: function (xhr) {
+                        Quote.LoadStop();
+                        Swal.fire("Falha", "Request Status: " + xhr.status + " Status Text: " + xhr.statusText + " " + xhr.responseText, "error");
+
+                    }
+                });
+            };
+
+            Quote.HistoryModal = function (modelResult) {
+
+                $.ajax({
+                    method: "GET",
+                    url: "/Shipping/HistoryModal",
+                    data: { contentJson: modelResult },
+                    dataType: "html",
+                    success: function success(result) {
+                        $("#modal-historico-cotacao-conteudo").html(result);
+                        $("#modal-historico-cotacao").modal("show");
+                    },
+                    error: function (xhr) {
+                        Swal.fire("Falha", "Request Status: " + xhr.status + " Status Text: " + xhr.statusText + " " + xhr.responseText, "error");
+                    }
+                });
             };
 
             Quote.LoadResult = function (modelResult) {
@@ -274,6 +321,24 @@
                 </div>
                 <div id="modal-resultado-cotacao-conteudo" class="modal-body">
                     
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-historico-cotacao">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Resultado da cotação</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modal-historico-cotacao-conteudo" class="modal-body">
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
