@@ -1,17 +1,22 @@
+using Frenet.Application.Data.Context;
 using Frenet.Application.Helpers;
-using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-//Dependency injection
+//Injection
 builder.Services.InitializeContainer(builder);
 
-//AutoMapper
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//Connection
+builder.Services.AddDbContext<MainContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FrenetDatabase"));
+});
 
+//AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfileHelper));
 
 var app = builder.Build();

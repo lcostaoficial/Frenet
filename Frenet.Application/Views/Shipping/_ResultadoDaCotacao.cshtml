@@ -23,7 +23,7 @@
         }
         else
         {
-            foreach (var item in Model.ShippingSevicesArray)
+            foreach (var item in Model.ShippingSevicesArray.OrderBy(x => x.ShippingPrice))
             {
                 if (item.Error == true)
                 {

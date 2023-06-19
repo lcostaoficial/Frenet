@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Frenet.Application.Models.Dto;
+using Frenet.Application.Models.Entities;
 using Frenet.Application.Models.ViewModel;
+using Frenet.Application.Repositories.Interfaces;
 using Frenet.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Reflection;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -12,11 +13,13 @@ namespace Frenet.Application.Controllers
 {
     public class ShippingController : Controller
     {
+        private readonly IQuoteHistoryRepository _quoteHistoryRepository;
         private readonly IShippingService _shippingService;
         private readonly IMapper _mapper;
 
-        public ShippingController(IShippingService shippingService, IMapper mapper)
+        public ShippingController(IQuoteHistoryRepository quoteHistoryRepository, IShippingService shippingService, IMapper mapper)
         {
+            _quoteHistoryRepository = quoteHistoryRepository;
             _shippingService = shippingService;
             _mapper = mapper;
         }
@@ -96,6 +99,23 @@ namespace Frenet.Application.Controllers
                     var shippingQuoteDto = _mapper.Map<ShippingQuoteDto>(model);
 
                     var result = await _shippingService.Quote(shippingQuoteDto)!;
+
+                    if (result!.ShippingSevicesArray!.Any())
+                    {
+                        foreach (var item in result!.ShippingSevicesArray!)
+                        {
+                            if (!item.Error)
+                            {
+                                var quoteHistory = _mapper.Map<QuoteHistory>(item);
+
+                                quoteHistory.InserirSellerCEP(model!.SellerCEP!);
+
+                                quoteHistory.GerarDataDeCriacao();
+
+                                await _quoteHistoryRepository.AddQuoteHistory(quoteHistory);
+                            }
+                        }
+                    }
 
                     return Json(new { Response = result });
                 }
